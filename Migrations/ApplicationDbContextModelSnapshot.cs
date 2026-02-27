@@ -21,6 +21,84 @@ namespace EnterpriseMvcApp.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("EnterpriseMvcApp.Models.Database", b =>
+                {
+                    b.Property<int>("DatabaseId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DatabaseId"));
+
+                    b.Property<string>("DatabaseName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DbPassword")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DbUser")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ServerId")
+                        .HasColumnType("int");
+
+                    b.HasKey("DatabaseId");
+
+                    b.HasIndex("ServerId");
+
+                    b.ToTable("Databases");
+                });
+
+            modelBuilder.Entity("EnterpriseMvcApp.Models.DatabaseMaster", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("DatabaseName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ServerId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ServerId");
+
+                    b.ToTable("DatabaseMasters");
+                });
+
+            modelBuilder.Entity("EnterpriseMvcApp.Models.Server", b =>
+                {
+                    b.Property<int>("ServerId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ServerId"));
+
+                    b.Property<string>("ServerName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("ServerStatus")
+                        .HasColumnType("bit");
+
+                    b.HasKey("ServerId");
+
+                    b.ToTable("Servers");
+                });
+
             modelBuilder.Entity("EnterpriseMvcApp.Models.ServerMaster", b =>
                 {
                     b.Property<int>("ServerId")
@@ -41,7 +119,7 @@ namespace EnterpriseMvcApp.Migrations
                     b.ToTable("ServerMasters");
                 });
 
-            modelBuilder.Entity("EnterpriseMvcApp.Models.User", b =>
+            modelBuilder.Entity("EnterpriseMvcApp.Models.UserCompanyAccess", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -49,15 +127,38 @@ namespace EnterpriseMvcApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("DatabaseName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("DatabaseId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("PasswordHash")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ServerId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("ServerName")
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DatabaseId");
+
+                    b.HasIndex("ServerId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserCompanyAccess");
+                });
+
+            modelBuilder.Entity("EnterpriseMvcApp.Models.UserMaster", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -67,7 +168,61 @@ namespace EnterpriseMvcApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("UserMasters");
+                });
+
+            modelBuilder.Entity("EnterpriseMvcApp.Models.Database", b =>
+                {
+                    b.HasOne("EnterpriseMvcApp.Models.Server", "Server")
+                        .WithMany("Databases")
+                        .HasForeignKey("ServerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Server");
+                });
+
+            modelBuilder.Entity("EnterpriseMvcApp.Models.DatabaseMaster", b =>
+                {
+                    b.HasOne("EnterpriseMvcApp.Models.ServerMaster", "Server")
+                        .WithMany()
+                        .HasForeignKey("ServerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Server");
+                });
+
+            modelBuilder.Entity("EnterpriseMvcApp.Models.UserCompanyAccess", b =>
+                {
+                    b.HasOne("EnterpriseMvcApp.Models.Database", "Database")
+                        .WithMany()
+                        .HasForeignKey("DatabaseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("EnterpriseMvcApp.Models.Server", "Server")
+                        .WithMany()
+                        .HasForeignKey("ServerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("EnterpriseMvcApp.Models.UserMaster", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Database");
+
+                    b.Navigation("Server");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("EnterpriseMvcApp.Models.Server", b =>
+                {
+                    b.Navigation("Databases");
                 });
 #pragma warning restore 612, 618
         }

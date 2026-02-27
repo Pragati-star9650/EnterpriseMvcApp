@@ -6,7 +6,6 @@ namespace EnterpriseMvcApp.Controllers
     {
         public IActionResult Index()
         {
-            // Protect page
             if (HttpContext.Session.GetString("UserName") == null)
             {
                 return RedirectToAction("Login", "Account");

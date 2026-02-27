@@ -1,0 +1,15 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Purchase";
+}
+<div class="sap-dashboard">
+    <div class="sap-dashboard-card">
+        <h1 class="sap-dashboard-title">Purchase</h1>
+        <p class="sap-dashboard-text">Purchase module overview. Choose a document type to work with.</p>
+        <p class="sap-dashboard-text">
+            <a asp-action="PurchaseOrders">Purchase Orders</a> |
+            <a asp-action="APInvoices">A/P Invoices</a>
+        </p>
+    </div>
+</div>
+

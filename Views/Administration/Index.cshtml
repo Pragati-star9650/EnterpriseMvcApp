@@ -1,0 +1,116 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Administration";
+}
+
+<div class="admin-page">
+
+    <!-- LEFT TREE MENU -->
+    <div class="admin-sidebar">
+        <h5 class="admin-heading">Administration</h5>
+
+        <ul class="admin-tree">
+
+            <li>
+                <span class="tree-title">Choose Company</span>
+            </li>
+
+            <li>
+                <span class="tree-parent" onclick="toggleMenu(this)">
+                    ▸ System Initialization
+                </span>
+                <ul class="tree-child">
+                    <li><a asp-action="CompanySetup">Company Details</a></li>
+                    <li><a asp-action="GeneralSettings">General Settings</a></li>
+                    <li><a asp-action="DocumentNumbering">Document Numbering</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <span class="tree-parent" onclick="toggleMenu(this)">
+                    ▸ Setup
+                </span>
+                <ul class="tree-child">
+                    <li><a asp-action="Users">Users</a></li>
+                    <li><a asp-action="Authorizations">Authorizations</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <span class="tree-title">Utilities</span>
+            </li>
+
+            <li>
+                <span class="tree-title">Add-Ons</span>
+            </li>
+
+        </ul>
+    </div>
+
+    <!-- RIGHT CONTENT AREA -->
+    <div class="admin-content">
+        <h2>Administration</h2>
+        <p>Select an option from the left panel.</p>
+    </div>
+
+</div>
+
+<script>
+    function toggleMenu(element) {
+        const child = element.nextElementSibling;
+
+        if (child.style.display === "block") {
+            child.style.display = "none";
+            element.innerHTML = element.innerHTML.replace("▾", "▸");
+        } else {
+            child.style.display = "block";
+            element.innerHTML = element.innerHTML.replace("▸", "▾");
+        }
+    }
+</script>
+
+
+@*
+    @{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Administration";
+}
+<div class="sap-dashboard">
+    <div class="sap-dashboard-card">
+        <h1 class="sap-dashboard-title">Administration</h1>
+        <p class="sap-dashboard-text">Configure core settings for the system.</p>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mt-2">
+            <div class="col">
+                <a class="card h-100 text-decoration-none p-3" asp-action="CompanySetup">
+                    <h5 class="mb-1">Company Setup</h5>
+                    <small>Company name, address, branding</small>
+                </a>
+            </div>
+            <div class="col">
+                <a class="card h-100 text-decoration-none p-3" asp-action="Users">
+                    <h5 class="mb-1">Users</h5>
+                    <small>Create users and manage roles</small>
+                </a>
+            </div>
+            <div class="col">
+                <a class="card h-100 text-decoration-none p-3" asp-action="Authorizations">
+                    <h5 class="mb-1">Authorizations</h5>
+                    <small>Permissions across modules</small>
+                </a>
+            </div>
+            <div class="col">
+                <a class="card h-100 text-decoration-none p-3" asp-action="DocumentNumbering">
+                    <h5 class="mb-1">Document Numbering</h5>
+                    <small>Series for sales/purchase</small>
+                </a>
+            </div>
+            <div class="col">
+                <a class="card h-100 text-decoration-none p-3" asp-action="GeneralSettings">
+                    <h5 class="mb-1">General Settings</h5>
+                    <small>System preferences</small>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+*@

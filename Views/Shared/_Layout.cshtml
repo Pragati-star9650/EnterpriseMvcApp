@@ -1,45 +1,269 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - EnterpriseMvcApp</title>
+    <title>@ViewData["Title"] - Ayushman Solutions</title>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/EnterpriseMvcApp.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/sap-login.css" />
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">EnterpriseMvcApp</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+
+<body class="sap-app-body">
+
+    <!-- ===== TOP HEADER ===== -->
+    <header class="sap-top-header navbar navbar-dark shadow-sm">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+
+            <!-- LEFT: LOGO + NAME -->
+            <div class="d-flex align-items-center">
+                @if (HttpContextAccessor.HttpContext?.Session?.GetString("UserName") != null)
+                {
+                    <button class="navbar-toggler me-2" type="button"
+                            data-bs-toggle="offcanvas" data-bs-target="#sapMainMenu"
+                            aria-controls="sapMainMenu" aria-label="Toggle menu">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                }
+                <img src="~/images/logo.png" width="40" class="me-2" />
+                <span class="fw-bold text-white fs-5">Ayushman Solutions</span>
+            </div>
+
+            <!-- RIGHT: USER INFO -->
+            @if (HttpContextAccessor.HttpContext?.Session?.GetString("UserName") != null)
+            {
+                <div class="d-flex align-items-center text-white">
+                    <span class="me-3">
+                        Welcome, @HttpContextAccessor.HttpContext.Session.GetString("UserName")
+                    </span>
+
+                    <a class="btn btn-light btn-sm"
+                       asp-controller="Account"
+                       asp-action="Logout">
+                        Logout
+                    </a>
                 </div>
+            }
+
+        </div>
+    </header>
+
+    <!-- ===== OFFCANVAS HAMBURGER MENU ===== -->
+    @if (HttpContextAccessor.HttpContext?.Session?.GetString("UserName") != null)
+    {
+        <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="sapMainMenu" aria-labelledby="sapMainMenuLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="sapMainMenuLabel">Modules</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <div class="list-group">
+                    <a class="list-group-item list-group-item-action" asp-controller="Administration" asp-action="Index">Administration</a>
+                    <a class="list-group-item list-group-item-action" href="#" data-bs-toggle="offcanvas" data-bs-target="#salesArMenu" data-bs-dismiss="offcanvas">Sales A/R</a>
+                    <a class="list-group-item list-group-item-action" asp-controller="Purchase" asp-action="Index">Purchase</a>
+                    <a class="list-group-item list-group-item-action" asp-controller="Inventory" asp-action="Index">Inventory</a>
+                    <a class="list-group-item list-group-item-action" asp-controller="BusinessPartner" asp-action="Index">Business Partner</a>
+                    <a class="list-group-item list-group-item-action" asp-controller="Banking" asp-action="Index">Banking</a>
+                    <a class="list-group-item list-group-item-action" asp-controller="Production" asp-action="Index">Production</a>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (HttpContextAccessor.HttpContext?.Session?.GetString("UserName") != null)
+    {
+        <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="salesArMenu" aria-labelledby="salesArMenuLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="salesArMenuLabel">Sales A/R</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <div class="list-group">
+                    <a class="list-group-item list-group-item-action" asp-controller="Sales" asp-action="BlanketAgreement">Sales Blanket Agreement</a>
+                    <a class="list-group-item list-group-item-action" asp-controller="Sales" asp-action="Quotations">Sales Quotation</a>
+                    <a class="list-group-item list-group-item-action" asp-controller="Sales" asp-action="Orders">Sales Order</a>
+                    <a class="list-group-item list-group-item-action" asp-controller="Sales" asp-action="Delivery">Delivery</a>
+                    <a class="list-group-item list-group-item-action" asp-controller="Sales" asp-action="ReturnRequest">Return Request</a>
+                    <a class="list-group-item list-group-item-action" asp-controller="Sales" asp-action="Return">Return</a>
+                    <a class="list-group-item list-group-item-action" asp-controller="Sales" asp-action="ARDownPaymentRequest">A/R Down Payment Request</a>
+                    <a class="list-group-item list-group-item-action" asp-controller="Sales" asp-action="ARDownPaymentInvoice">A/R Down Payment Invoice</a>
+                    <a class="list-group-item list-group-item-action" asp-controller="Sales" asp-action="ARInvoices">A/R Invoice</a>
+                    <a class="list-group-item list-group-item-action" asp-controller="Sales" asp-action="ARInvoicePayment">A/R Invoice + Payment</a>
+                    <a class="list-group-item list-group-item-action" asp-controller="Sales" asp-action="ARCreditMemo">A/R Credit Memo</a>
+                    <a class="list-group-item list-group-item-action" asp-controller="Sales" asp-action="DocumentGenerationWizard">Document Generation Wizard</a>
+                    <a class="list-group-item list-group-item-action" asp-controller="Sales" asp-action="RecurringTransactions">Recurring Transactions</a>
+                </div>
+            </div>
+        </div>
+    }
+    <!-- ===== MAIN CONTENT ===== -->
+    <main class="sap-app-main container-fluid py-4">
+        @RenderBody()
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="sap-footer text-center py-3">
+        © @DateTime.Now.Year Ayushman Solutions |
+        SAP Business One Integrated ERP System
+    </footer>
+
+    <!-- Scripts -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+
+
+
+
+@*<!DOCTYPE html>
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Ayushman Solutions</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/sap-login.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+
+<body class="sap-app-body">
+
+    <!-- ===== HEADER ===== -->
+    <header class="sap-app-header shadow-sm">
+        <nav class="sap-nav container-fluid">
+
+            <!-- Brand Section -->
+            <div class="sap-nav-brand d-flex align-items-center">
+                <a class="d-flex align-items-center text-white text-decoration-none fw-bold fs-5"
+                   asp-controller="Dashboard" asp-action="Index">
+
+                    <img src="~/images/logo.png" width="40" class="me-2" />
+                    Ayushman Solutions
+                </a>
+            </div>
+
+            <!-- Toggle Button -->
+            <button type="button" class="sap-nav-toggler"
+                    aria-label="Toggle menu"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#sapNavContent">
+                <span class="sap-nav-toggler-icon"></span>
+            </button>
+
+            <!-- Menu Items -->
+            <div class="sap-nav-collapse collapse" id="sapNavContent">
+                <ul class="sap-nav-menu align-items-start">
+
+                    <li>
+                        <a asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+                    </li>
+
+                    @if (HttpContextAccessor.HttpContext?.Session?.GetString("UserName") != null)
+                    {
+                        <li class="ms-3">
+                            <span class="text-white me-2">
+                                Welcome, @HttpContextAccessor.HttpContext.Session.GetString("UserName")
+                            </span>
+                        </li>
+
+                        <li class="sap-nav-logout">
+                            <a class="btn btn-light btn-sm"
+                               asp-controller="Account"
+                               asp-action="Logout">
+                                Logout
+                            </a>
+                        </li>
+                    }
+
+                </ul>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - EnterpriseMvcApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    
+
+    
+
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main class="sap-app-main container py-4">
+        @RenderBody()
+
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="sap-app-footer text-center py-3">
+        <div class="sap-app-footer-inner">
+            � @DateTime.Now.Year Ayushman Solutions |
+            SAP Business One Integrated ERP System
         </div>
+    </footer>
+
+
+    <!-- Scripts -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>
+*@
+
+    @*<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Enterprise</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/sap-login.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="sap-app-body">
+    <header class="sap-app-header">
+        <nav class="sap-nav">
+            <div class="sap-nav-brand">
+               <!-- <a asp-controller="Dashboard" asp-action="Index">Enterprise</a>-->
+                <a class="navbar-brand d-flex align-items-center fw-bold text-primary"
+                   asp-controller="Dashboard" asp-action="Index">
+
+                    <img src="~/images/logo.png" width="35" class="me-2" />
+                    Ayushman Solutions
+
+                </a>
+            </div>
+            <button type="button" class="sap-nav-toggler" aria-label="Toggle menu" data-bs-toggle="collapse" data-bs-target="#sapNavContent">
+                <span class="sap-nav-toggler-icon"></span>
+            </button>
+            <div class="sap-nav-collapse collapse" id="sapNavContent">
+                <ul class="sap-nav-menu">
+                    <li><a asp-controller="Dashboard" asp-action="Index">Dashboard</a></li>
+                    @if (Context.Session.GetString("UserName") != null)
+                    {
+                        <li><a asp-controller="Administration" asp-action="Index">Administration</a></li>
+                        <li><a asp-controller="BusinessPartner" asp-action="Index">Business Partner</a></li>
+                        <li><a asp-controller="Sales" asp-action="Index">Sales</a></li>
+                        <li><a asp-controller="Purchase" asp-action="Index">Purchase</a></li>
+                        <li><a asp-controller="Banking" asp-action="Index">Banking</a></li>
+                        <li class="sap-nav-logout">
+                            <a asp-controller="Account" asp-action="Logout">Logout</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <main class="sap-app-main">
+        @RenderBody()
+    </main>
+    <footer class="sap-app-footer">
+        <div class="sap-app-footer-inner">&copy; @DateTime.Now.Year Enterprise</div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -47,3 +271,4 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+*@

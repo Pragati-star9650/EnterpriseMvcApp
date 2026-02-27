@@ -1,0 +1,173 @@
+@model EnterpriseMvcApp.Models.SignupViewModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Admin Signup";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Enterprise</title>
+    <link rel="stylesheet" href="~/css/sap-login.css" asp-append-version="true" />
+</head>
+<body class="sap-login-page">
+    <div class="sap-login-wrapper">
+        <div class="sap-login-card">
+            <div class="sap-login-header">
+                <h1>Create Admin User</h1>
+            </div>
+            <div class="sap-login-body">
+                @if (ViewBag.DbError != null)
+                {
+                    <div class="sap-alert-info" role="alert">@ViewBag.DbError</div>
+                }
+                @if (ViewBag.Error != null)
+                {
+                    <div class="sap-alert-error" role="alert">@ViewBag.Error</div>
+                }
+                @if (ViewBag.Success != null)
+                {
+                    <div class="sap-alert-info" role="alert">@ViewBag.Success</div>
+                }
+
+                <form asp-action="Signup" method="post">
+                    <div class="sap-form-group">
+                        <label for="serverSelect">Server</label>
+                        <select asp-for="ServerId" id="serverSelect" class="sap-form-control" required>
+                            <option value="">-- Select Server --</option>
+                            <option value="0">+ Define New Server...</option>
+                            @if (ViewBag.ServerList != null)
+                            {
+                                @foreach (var server in ViewBag.ServerList)
+                                {
+                                    <option value="@server.ServerId">@server.ServerName</option>
+                                }
+                            }
+                        </select>
+                        <div id="serverInlineBox" style="display:none; margin-top:8px;">
+                            <input asp-for="NewServerName" id="serverNameInput" class="sap-form-control" placeholder="Enter new server name" />
+                            <button type="button" id="serverBackBtn" class="sap-btn-secondary" style="margin-top:8px;">Back to list</button>
+                        </div>
+                    </div>
+
+                    <div class="sap-form-group">
+                        <label for="databaseSelect">Database</label>
+                        <select asp-for="DatabaseId" id="databaseSelect" class="sap-form-control" required>
+                            <option value="">-- Select Database --</option>
+                        </select>
+                        <div id="databaseInlineBox" style="display:none; margin-top:8px;">
+                            <input asp-for="NewDatabaseName" id="databaseNameInput" class="sap-form-control" placeholder="Enter new database name" />
+                            <button type="button" id="databaseBackBtn" class="sap-btn-secondary" style="margin-top:8px;">Back to list</button>
+                        </div>
+                    </div>
+
+                    <div class="sap-form-group">
+                        <label asp-for="UserName">Username</label>
+                        <input asp-for="UserName" class="sap-form-control" placeholder="Enter username" autocomplete="username" />
+                    </div>
+
+                    <div class="sap-form-group">
+                        <label asp-for="Password">Password</label>
+                        <input asp-for="Password" type="password" class="sap-form-control" placeholder="Enter password" autocomplete="new-password" />
+                    </div>
+
+                    <button type="submit" class="sap-btn-primary">Sign up</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            var serverSelect = document.getElementById('serverSelect');
+            var dbSelect = document.getElementById('databaseSelect');
+            var serverNameInput = document.getElementById('serverNameInput');
+            var serverInlineBox = document.getElementById('serverInlineBox');
+            var serverBackBtn = document.getElementById('serverBackBtn');
+            var databaseNameInput = document.getElementById('databaseNameInput');
+            var databaseInlineBox = document.getElementById('databaseInlineBox');
+            var databaseBackBtn = document.getElementById('databaseBackBtn');
+
+            function resetDatabaseSelect() {
+                dbSelect.innerHTML = '<option value="">-- Select Database --</option>';
+            }
+
+            serverSelect.addEventListener('change', function () {
+                var serverId = this.value;
+                // Toggle inline server input
+                if (serverId === '0') {
+                    serverSelect.style.display = 'none';
+                    serverInlineBox.style.display = 'block';
+                } else {
+                    serverSelect.style.display = 'block';
+                    serverInlineBox.style.display = 'none';
+                }
+
+                databaseInlineBox.style.display = 'none';
+                resetDatabaseSelect();
+
+                if (!serverId) return;
+
+                if (serverId === '0') {
+                    // New server: allow defining new database immediately
+                    var optNewDb = document.createElement('option');
+                    optNewDb.value = '0';
+                    optNewDb.textContent = '+ Define New Database...';
+                    dbSelect.appendChild(optNewDb);
+                    return;
+                }
+
+                fetch('/Account/GetDatabases?serverId=' + encodeURIComponent(serverId))
+                    .then(function (res) { return res.json(); })
+                    .then(function (data) {
+                        data.forEach(function (item) {
+                            var opt = document.createElement('option');
+                            opt.value = item.databaseId;
+                            opt.textContent = item.databaseName;
+                            dbSelect.appendChild(opt);
+                        });
+                        var optNewDb = document.createElement('option');
+                        optNewDb.value = '0';
+                        optNewDb.textContent = '+ Define New Database...';
+                        dbSelect.appendChild(optNewDb);
+                    })
+                    .catch(function () {
+                        resetDatabaseSelect();
+                        var optNewDb = document.createElement('option');
+                        optNewDb.value = '0';
+                        optNewDb.textContent = '+ Define New Database...';
+                        dbSelect.appendChild(optNewDb);
+                    });
+            });
+
+            dbSelect.addEventListener('change', function () {
+                var dbId = this.value;
+                if (dbId === '0') {
+                    dbSelect.style.display = 'none';
+                    databaseInlineBox.style.display = 'block';
+                } else {
+                    dbSelect.style.display = 'block';
+                    databaseInlineBox.style.display = 'none';
+                }
+            });
+
+            serverBackBtn.addEventListener('click', function () {
+                serverInlineBox.style.display = 'none';
+                serverSelect.style.display = 'block';
+                serverNameInput.value = '';
+                serverSelect.value = '';
+                resetDatabaseSelect();
+                databaseInlineBox.style.display = 'none';
+            });
+
+            databaseBackBtn.addEventListener('click', function () {
+                databaseInlineBox.style.display = 'none';
+                dbSelect.style.display = 'block';
+                databaseNameInput.value = '';
+                dbSelect.value = '';
+            });
+        })();
+    </script>
+</body>
+</html>

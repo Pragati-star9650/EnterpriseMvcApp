@@ -1,144 +1,119 @@
-﻿@model EnterpriseMvcApp.Models.LoginViewModel
+@model EnterpriseMvcApp.Models.LoginViewModel
 @{
     Layout = null;
+    ViewData["Title"] = "Login";
 }
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Enterprise Login</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Enterprise</title>
+    <link rel="stylesheet" href="~/css/sap-login.css" asp-append-version="true" />
 </head>
-<body class="bg-light">
-
-    <div class="container vh-100 d-flex justify-content-center align-items-center">
-        <div class="card shadow" style="width: 360px;">
-            <div class="card-header text-center bg-primary text-white">
-                <h5>Enterprise System Login</h5>
+<body class="sap-login-page">
+    <div class="sap-login-wrapper">
+        <div class="sap-login-card">
+          <!--  <div class="sap-login-header">     -->
+            <div class="sap-login-header">
+                <img src="~/images/logo.png" alt="Company Logo" class="login-logo" />
+                <h1>Enterprise System Login</h1>
             </div>
-
-            <div class="card-body">
-
+               <!-- <h1>Enterprise System Login</h1>
+            </div>-->
+            <div class="sap-login-body">
+                @if (ViewBag.DbError != null)
+                {
+                    <div class="sap-alert-info" role="alert">@ViewBag.DbError</div>
+                }
                 @if (ViewBag.Error != null)
                 {
-                    <div class="alert alert-danger">
-                        @ViewBag.Error
-                    </div>
+                    <div class="sap-alert-error" role="alert">@ViewBag.Error</div>
                 }
-
-                <!-- 🔴 FORM START -->
+                
                 <form asp-action="Login" method="post">
-
-                    <!-- SERVER -->
-                    <div class="mb-3">
-                        <label class="form-label">Server Name</label>
-                        <select id="serverSelect"
-                                name="ServerName"
-                                class="form-select">
+                    <div class="sap-form-group">
+                        <label for="serverSelect">Server</label>
+                        <select asp-for="ServerId" id="serverSelect" class="sap-form-control" required>
                             <option value="">-- Select Server --</option>
+                            @if (ViewBag.ServerList != null)
+                            {
+                                @foreach (var server in ViewBag.ServerList)
+                                {
+                                    <option value="@server.ServerId">@server.ServerName</option>
+                                }
+                            }
                         </select>
                     </div>
 
-                    <!-- DATABASE -->
-                    <div class="mb-3">
-                        <label class="form-label">Database Name</label>
-                        <select id="databaseSelect"
-                                name="DatabaseName"
-                                class="form-select">
+                    <div class="sap-form-group">
+                        <label for="databaseSelect">Database</label>
+                        <select asp-for="DatabaseId" id="databaseSelect" class="sap-form-control" required>
                             <option value="">-- Select Database --</option>
                         </select>
                     </div>
 
-                    <!-- USERNAME -->
-                    <div class="mb-3">
-                        <label asp-for="UserName"></label>
-                        <input asp-for="UserName"
-                               class="form-control" />
+                    <div class="sap-form-group">
+                        <label asp-for="UserName">Username</label>
+                        <input asp-for="UserName" class="sap-form-control" placeholder="Enter username" autocomplete="username" />
                     </div>
 
-                    <!-- PASSWORD -->
-                    <div class="mb-3">
-                        <label asp-for="Password"></label>
-                        <input asp-for="Password"
-                               type="password"
-                               class="form-control" />
+                    <div class="sap-form-group">
+                        <label asp-for="Password">Password</label>
+                       <!-- <input asp-for="Password" type="password" class="sap-form-control" placeholder="Enter password" autocomplete="current-password" />-->
+                       
+                       <!-------------------------------------------mine ------------------------------------->
+
+                       <div style="position:relative;">
+                            <input asp-for="Password" type="password" id="passwordField"
+                                   class="sap-form-control"
+                                   placeholder="Enter password"
+                                   autocomplete="current-password" />
+                            <span onclick="togglePassword()"
+                                  style="position:absolute; right:12px; top:10px; cursor:pointer;">
+                                👁
+                            </span>
+                        </div>
+                        <!-------------------------------------------mine ------------------------------------->
                     </div>
 
-                    <button type="submit"
-                            class="btn btn-primary w-100">
-                        Login
-                    </button>
-
+                    <button type="submit" class="sap-btn-primary">Login</button>
                 </form>
-                <!-- 🔴 FORM END -->
 
+                <div class="sap-login-links">
+                    <a asp-action="ForgotPassword">Forgot password / Reset password</a>
+                </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-
-            // 🔵 SERVER API CALL
-            fetch('http://192.168.7.2:82/api/ItemMaster')
-                .then(res => res.json())
-                .then(data => {
-
-                    const serverSelect =
-                        document.getElementById('serverSelect');
-
-                    serverSelect.innerHTML =
-                        '<option value="">-- Select Server --</option>';
-
-                    data.forEach(item => {
-                        serverSelect.innerHTML +=
-                            `<option value="${item.serverName}">
-                                ${item.serverName}
-                            </option>`;
+        document.getElementById('serverSelect').addEventListener('change', function () {
+            var serverId = this.value;
+            var dbSelect = document.getElementById('databaseSelect');
+            dbSelect.innerHTML = '<option value="">-- Select Database --</option>';
+            if (!serverId) return;
+            fetch('/Account/GetDatabases?serverId=' + encodeURIComponent(serverId))
+                .then(function (res) { return res.json(); })
+                .then(function (data) {
+                    data.forEach(function (item) {
+                        var opt = document.createElement('option');
+                        opt.value = item.databaseId;
+                        opt.textContent = item.databaseName;
+                        dbSelect.appendChild(opt);
                     });
-
                 })
-                .catch(error => {
-                    alert("Server API not reachable");
-                    console.log(error);
+                .catch(function () {
+                    dbSelect.innerHTML = '<option value="">-- Select Database --</option>';
                 });
-
-
-            // 🔵 DATABASE API CALL
-            document.getElementById('serverSelect')
-                .addEventListener('change', function () {
-
-                const server = this.value;
-
-                if (!server) return;
-
-                fetch('http://192.168.7.2:82/api/ItemMaster')
-                    .then(res => res.json())
-                    .then(data => {
-
-                        const dbSelect =
-                            document.getElementById('databaseSelect');
-
-                        dbSelect.innerHTML =
-                            '<option value="">-- Select Database --</option>';
-
-                        data.forEach(item => {
-                            dbSelect.innerHTML +=
-                                `<option value="${item.databaseName}">
-                                    ${item.databaseName}
-                                </option>`;
-                        });
-
-                    })
-                    .catch(error => {
-                        alert("Database API not reachable");
-                        console.log(error);
-                    });
-
-            });
-
         });
+        /*----------------------------mine ------------------------------------------------*/
+                function togglePassword() {
+            var pwd = document.getElementById("passwordField");
+            pwd.type = pwd.type === "password" ? "text" : "password";
+        }
+        /*----------------------------mine ------------------------------------------------*/
     </script>
-
 </body>
 </html>

@@ -1,0 +1,39 @@
+@model IEnumerable<EnterpriseMvcApp.Controllers.SalesDocumentViewModel>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "A/R Invoices";
+}
+<div class="sap-dashboard">
+    <div class="sap-dashboard-card">
+        <h1 class="sap-dashboard-title">A/R Invoices</h1>
+        <p class="sap-dashboard-text">Sample list of A/R invoices. Once the backend is wired to the database, this will show real invoice data.</p>
+        <div class="table-responsive mt-3">
+            <table class="table table-sm table-striped">
+                <thead>
+                    <tr>
+                        <th>Number</th>
+                        <th>Date</th>
+                        <th>BP Code</th>
+                        <th>BP Name</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.DocNumber</td>
+                            <td>@item.DocDate.ToShortDateString()</td>
+                            <td>@item.BusinessPartnerCode</td>
+                            <td>@item.BusinessPartnerName</td>
+                            <td>@item.Total.ToString("N2")</td>
+                            <td>@item.Status</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

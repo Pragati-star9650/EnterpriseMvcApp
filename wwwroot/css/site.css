@@ -1,4 +1,156 @@
-html {
+/* BODY */
+.sap-app-body {
+    background-color: #f4f6f9;
+    font-family: "Segoe UI", sans-serif;
+}
+
+/* ===== TOP HEADER ===== */
+.sap-top-header {
+    background-color: #1f3c88;
+    padding: 12px 25px;
+}
+
+/* ===== MODULE BAR ===== */
+.sap-module-bar {
+    background-color: #ffffff;
+    padding: 15px 30px;
+    display: flex;
+    gap: 25px;
+    border-bottom: 1px solid #dcdcdc;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+    .sap-module-bar a {
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        padding: 8px 18px;
+        border-radius: 6px;
+        transition: 0.3s ease;
+    }
+
+        .sap-module-bar a:hover {
+            background-color: #1f3c88;
+            color: white;
+        }
+
+/* ===== MAIN ===== 
+.sap-app-main {
+    min-height: 75vh;
+}
+    */
+
+.sap-app-main {
+    min-height: 75vh;
+    padding: 40px;
+    background: linear-gradient(to bottom, #f7f9fc, #eef2f7);
+}
+
+/* ===== FOOTER ===== */
+.sap-footer {
+    background-color: #ffffff;
+    border-top: 1px solid #ddd;
+    font-size: 14px;
+}
+
+/* ===== OFFCANVAS (Hamburger) ===== */
+.offcanvas.text-bg-dark {
+    width: 320px;
+    background: #243647 !important;
+}
+
+.offcanvas.text-bg-dark .offcanvas-header {
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.offcanvas.text-bg-dark .list-group-item {
+    background: transparent;
+    color: rgba(255,255,255,0.9);
+    border: none;
+    padding: 10px 12px;
+}
+
+.offcanvas.text-bg-dark .list-group-item:hover {
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+}
+
+
+/* ================= ADMINISTRATION PAGE ================= */
+
+.admin-page {
+    display: flex;
+    min-height: 85vh;
+    background: #f4f6f9;
+}
+
+/* LEFT SIDE */
+.admin-sidebar {
+    width: 280px;
+    background: #ffffff;
+    border-right: 1px solid #ddd;
+    padding: 15px;
+}
+
+.admin-heading {
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.admin-tree {
+    list-style: none;
+    padding: 0;
+}
+
+    .admin-tree li {
+        margin-bottom: 6px;
+    }
+
+.tree-title {
+    display: block;
+    padding: 8px 10px;
+    font-weight: 500;
+}
+
+.tree-parent {
+    display: block;
+    padding: 8px 10px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+    .tree-parent:hover {
+        background-color: #e9ecef;
+    }
+
+.tree-child {
+    list-style: none;
+    padding-left: 20px;
+    display: none;
+}
+
+    .tree-child li a {
+        display: block;
+        padding: 6px 8px;
+        text-decoration: none;
+        color: #333;
+        border-radius: 4px;
+    }
+
+        .tree-child li a:hover {
+            background-color: #1f3c88;
+            color: white;
+        }
+
+/* RIGHT SIDE */
+.admin-content {
+    flex: 1;
+    padding: 30px;
+}
+
+
+
+/*html {
   font-size: 14px;
 }
 
@@ -19,4 +171,160 @@ html {
 
 body {
   margin-bottom: 60px;
+}*/
+
+/*body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', sans-serif;
 }
+
+html, body {
+    height: 100%;
+}
+
+body.sap-app-body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.sap-app-main {
+    flex: 1 0 auto;
+}
+
+.sap-app-footer {
+    flex-shrink: 0;
+}
+.sap-app-header {
+    background-color: #0a6ed1;
+}
+
+.sap-nav {
+    display: flex;
+    flex-direction: column;
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+.sap-nav-menu {
+    display: flex;
+    gap: 16px;
+    padding-left: 0;
+    margin-top: 6px;
+}
+
+.sap-nav-menu > li > a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.module-bar {
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(4px);
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.module-bar-inner {
+    display: flex;
+    gap: 16px;
+    padding: 8px 16px;
+    flex-wrap: wrap;
+}
+
+.module-bar a {
+    display: inline-block;
+    padding: 8px 14px;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #223548;
+    text-decoration: none;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    transition: transform 0.08s ease, background 0.2s ease, color 0.2s ease;
+    font-weight: 500;
+}
+
+.module-bar a:hover {
+    background: #f4f6f8;
+    color: #0a6ed1;
+    transform: translateY(-1px);
+}
+
+.sap-module-bar {
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(4px);
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.sap-module-bar-inner {
+    display: flex;
+    gap: 16px;
+    padding: 8px 16px;
+}
+
+.sap-module-link {
+    display: inline-block;
+    padding: 8px 12px;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #223548;
+    text-decoration: none;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+}
+
+.sap-module-link:hover {
+    background: #f4f6f8;
+}
+
+.main-container {
+    padding-top: 8px;
+}
+
+.logo {
+    width: 120px;
+    margin-bottom: 15px;
+}
+
+.top-section h1 {
+    font-weight: 600;
+    color: #1f3c88;
+}
+
+.tagline {
+    color: #6c757d;
+    margin-bottom: 40px;
+}
+
+.card-container {
+    display: flex;
+    justify-content: flex-start;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-left: 16px;
+}
+
+.card-box {
+    width: 200px;
+    height: 120px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+    .card-box:hover {
+        background: #1f3c88;
+        color: white;
+        transform: translateY(-5px);
+    }
+body {
+    background: url('/images/SAP-partner-logo.png') no-repeat center center fixed;
+    background-size: cover;
+}
+    */

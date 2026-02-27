@@ -1,0 +1,66 @@
+﻿@{
+    ViewBag.Title = "Company Login";
+}
+
+<h3>Select Server & Database</h3>
+
+<form asp-action="Connect" method="post">
+
+    <div>
+        <label>Server</label>
+        <select id="serverDropdown" class="form-control">
+            <option value="">Select Server</option>
+            @foreach (var server in ViewBag.ServerList)
+            {
+                <option value="@server.ServerId">
+                    @server.ServerName
+                </option>
+            }
+        </select>
+    </div>
+
+    <br />
+
+    <div>
+        <label>Database</label>
+        <select id="databaseDropdown"
+                name="DatabaseId"
+                class="form-control">
+            <option value="">Select Database</option>
+        </select>
+    </div>
+
+    <br />
+
+    <button type="submit" class="btn btn-primary">
+        Connect
+    </button>
+
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $("#serverDropdown").change(function () {
+
+        var serverId = $(this).val();
+
+        if (serverId === "") {
+            $("#databaseDropdown").html("<option value=''>Select Database</option>");
+            return;
+        }
+
+        $.get("/Login/GetDatabases",
+            { serverId: serverId },
+            function (data) {
+
+                $("#databaseDropdown").html("<option value=''>Select Database</option>");
+
+                $.each(data, function (i, item) {
+                    $("#databaseDropdown").append(
+                        "<option value='" + item.databaseId + "'>"
+                        + item.databaseName + "</option>");
+                });
+            });
+    });
+</script>
