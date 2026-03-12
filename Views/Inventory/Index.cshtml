@@ -2,9 +2,32 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Inventory";
 }
-<div class="sap-dashboard">
-    <div class="sap-dashboard-card">
-        <h1 class="sap-dashboard-title">Inventory</h1>
-        <p class="sap-dashboard-text">Manage items and warehouse operations.</p>
+<div class="admin-page">
+    <div class="admin-sidebar">
+        <h5 class="admin-heading">Inventory</h5>
+        <ul class="admin-tree">
+            <li>
+                <span class="tree-parent" onclick="toggleMenu(this)">▸ Master Data</span>
+                <ul class="tree-child">
+                    <li><a asp-action="Items">Item Master Data</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="admin-content">
+        <h2>Inventory</h2>
+        <p>Select an option from the left panel.</p>
     </div>
 </div>
+<script>
+    function toggleMenu(element) {
+        const child = element.nextElementSibling;
+        if (child.style.display === "block") {
+            child.style.display = "none";
+            element.innerHTML = element.innerHTML.replace("▾", "▸");
+        } else {
+            child.style.display = "block";
+            element.innerHTML = element.innerHTML.replace("▸", "▾");
+        }
+    }
+</script>

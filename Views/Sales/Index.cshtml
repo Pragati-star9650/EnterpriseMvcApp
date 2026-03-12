@@ -2,25 +2,51 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Sales A/R";
 }
-<div class="container py-3">
-    <h2 class="mb-3">Sales Module</h2>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="list-group">
-                <a class="list-group-item list-group-item-action" asp-action="BlanketAgreement">Sales Blanket Agreement</a>
-                <a class="list-group-item list-group-item-action" asp-action="Quotations">Sales Quotation</a>
-                <a class="list-group-item list-group-item-action" asp-action="Orders">Sales Order</a>
-                <a class="list-group-item list-group-item-action" asp-action="Delivery">Delivery</a>
-                <a class="list-group-item list-group-item-action" asp-action="ReturnRequest">Return Request</a>
-                <a class="list-group-item list-group-item-action" asp-action="Return">Return</a>
-                <a class="list-group-item list-group-item-action" asp-action="ARDownPaymentRequest">A/R Down Payment Request</a>
-                <a class="list-group-item list-group-item-action" asp-action="ARDownPaymentInvoice">A/R Down Payment Invoice</a>
-                <a class="list-group-item list-group-item-action" asp-action="ARInvoices">A/R Invoice</a>
-                <a class="list-group-item list-group-item-action" asp-action="ARInvoicePayment">A/R Invoice + Payment</a>
-                <a class="list-group-item list-group-item-action" asp-action="ARCreditMemo">A/R Credit Memo</a>
-                <a class="list-group-item list-group-item-action" asp-action="DocumentGenerationWizard">Document Generation Wizard</a>
-                <a class="list-group-item list-group-item-action" asp-action="RecurringTransactions">Recurring Transactions</a>
-            </div>
-        </div>
+
+<div class="admin-page">
+
+    <!-- LEFT TREE MENU -->
+    <div class="admin-sidebar">
+        <h5 class="admin-heading">Sales A/R</h5>
+
+        <ul class="admin-tree">
+
+            <li>
+                <span class="tree-parent" onclick="toggleMenu(this)">
+                    ▸ Sales Documents
+                </span>
+                <ul class="tree-child">
+                    <li><a asp-action="Quotations">Sales Quotation</a></li>
+                    <li><a asp-action="Orders">Sales Order</a></li>
+                    <li><a asp-action="Delivery">Delivery</a></li>
+                    <li><a asp-action="ARInvoices">A/R Invoice</a></li>
+                    <li><a asp-action="ARCreditMemo">A/R Credit Memo</a></li>
+                </ul>
+            </li>
+
+            
+
+        </ul>
     </div>
+
+    <!-- RIGHT CONTENT AREA -->
+    <div class="admin-content">
+        <h2>Sales</h2>
+        <p>Select a document type from the left panel.</p>
+    </div>
+
 </div>
+
+<script>
+    function toggleMenu(element) {
+        const child = element.nextElementSibling;
+
+        if (child.style.display === "block") {
+            child.style.display = "none";
+            element.innerHTML = element.innerHTML.replace("▾", "▸");
+        } else {
+            child.style.display = "block";
+            element.innerHTML = element.innerHTML.replace("▸", "▾");
+        }
+    }
+</script>

@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="~/css/sap-login.css" />
 </head>
 
-<body class="sap-app-body">
+<body class="sap-app-body theme-sap">
 
     <!-- ===== TOP HEADER ===== -->
     <header class="sap-top-header navbar navbar-dark shadow-sm">
@@ -61,12 +61,13 @@
             <div class="offcanvas-body">
                 <div class="list-group">
                     <a class="list-group-item list-group-item-action" asp-controller="Administration" asp-action="Index">Administration</a>
-                    <a class="list-group-item list-group-item-action" href="#" data-bs-toggle="offcanvas" data-bs-target="#salesArMenu" data-bs-dismiss="offcanvas">Sales A/R</a>
+                    <a class="list-group-item list-group-item-action" asp-controller="Sales" asp-action="Index">Sales A/R</a>
                     <a class="list-group-item list-group-item-action" asp-controller="Purchase" asp-action="Index">Purchase</a>
                     <a class="list-group-item list-group-item-action" asp-controller="Inventory" asp-action="Index">Inventory</a>
                     <a class="list-group-item list-group-item-action" asp-controller="BusinessPartner" asp-action="Index">Business Partner</a>
                     <a class="list-group-item list-group-item-action" asp-controller="Banking" asp-action="Index">Banking</a>
                     <a class="list-group-item list-group-item-action" asp-controller="Production" asp-action="Index">Production</a>
+                    <a class="list-group-item list-group-item-action" asp-controller="Reports" asp-action="Index">Reports</a>
                 </div>
             </div>
         </div>

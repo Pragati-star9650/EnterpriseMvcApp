@@ -8,5 +8,25 @@ namespace EnterpriseMvcApp.Controllers
         {
             return View();
         }
+        
+        public IActionResult BillOfMaterials()
+        {
+            return View();
+        }
+
+        public IActionResult ProductionOrder()
+        {
+            return View();
+        }
+
+        public IActionResult Receipt()
+        {
+            return View();
+        }
+
+        public IActionResult Issue()
+        {
+            return View();
+        }
     }
 }

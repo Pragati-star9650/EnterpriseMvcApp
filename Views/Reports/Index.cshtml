@@ -1,50 +1,33 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewData["Title"] = "Business Partner";
+    ViewData["Title"] = "Reports";
 }
-
 <div class="admin-page">
-
-    <!-- LEFT TREE MENU -->
     <div class="admin-sidebar">
-        <h5 class="admin-heading">Business Partner</h5>
-
+        <h5 class="admin-heading">Reports</h5>
         <ul class="admin-tree">
-
             <li>
-                <span class="tree-parent" onclick="toggleMenu(this)">
-                    ▸ Master Data
-                </span>
+                <span class="tree-parent" onclick="toggleMenu(this)">▸ Sales Reports</span>
                 <ul class="tree-child">
-                    <li><a asp-action="MasterData">Add Business Master Data</a></li>
-                    <li><a asp-action="MasterData">View Business Master Data</a></li>
+                    <li><a href="#">Sales Summary</a></li>
                 </ul>
             </li>
-
             <li>
-                <span class="tree-parent" onclick="toggleMenu(this)">
-                    ▸ Contacts
-                </span>
+                <span class="tree-parent" onclick="toggleMenu(this)">▸ Purchase Reports</span>
                 <ul class="tree-child">
-                    <li><a asp-action="Contacts">Manage Contacts</a></li>
+                    <li><a href="#">Purchase Summary</a></li>
                 </ul>
             </li>
-
         </ul>
     </div>
-
-    <!-- RIGHT CONTENT AREA -->
     <div class="admin-content">
-        <h2>Business Partner</h2>
-        <p>Select an option from the left panel.</p>
+        <h2>Reports</h2>
+        <p>Select a report from the left.</p>
     </div>
-
 </div>
-
 <script>
     function toggleMenu(element) {
         const child = element.nextElementSibling;
-
         if (child.style.display === "block") {
             child.style.display = "none";
             element.innerHTML = element.innerHTML.replace("▾", "▸");
@@ -54,4 +37,3 @@
         }
     }
 </script>
-

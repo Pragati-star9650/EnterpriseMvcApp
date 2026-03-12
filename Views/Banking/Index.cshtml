@@ -1,27 +1,23 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewData["Title"] = "Purchase";
+    ViewData["Title"] = "Banking";
 }
 
 <div class="admin-page">
 
     <!-- LEFT TREE MENU -->
     <div class="admin-sidebar">
-        <h5 class="admin-heading">Purchase</h5>
+        <h5 class="admin-heading">Banking</h5>
 
         <ul class="admin-tree">
 
             <li>
                 <span class="tree-parent" onclick="toggleMenu(this)">
-                    ▸ Purchasing Documents
+                    ▸ Payments
                 </span>
                 <ul class="tree-child">
-                    <li><a asp-action="PurchaseRequest">Purchase Request</a></li>
-                    <li><a asp-action="PurchaseQuotation">Purchase Quotation</a></li>
-                    <li><a asp-action="PurchaseOrders">Purchase Order</a></li>
-                    <li><a asp-action="GoodsReceiptPO">Goods Receipt PO (GRPO)</a></li>
-                    <li><a asp-action="APInvoices">A/P Invoice</a></li>
-                    <li><a asp-action="APCreditMemo">A/P Credit Memo</a></li>
+                    <li><a asp-action="IncomingPayments">Incoming Payments</a></li>
+                    <li><a asp-action="OutgoingPayments">Outgoing Payments</a></li>
                 </ul>
             </li>
 
@@ -30,8 +26,8 @@
 
     <!-- RIGHT CONTENT AREA -->
     <div class="admin-content">
-        <h2>Purchase</h2>
-        <p>Select a purchasing document from the left panel.</p>
+        <h2>Banking</h2>
+        <p>Select a banking function from the left panel.</p>
     </div>
 
 </div>
@@ -49,4 +45,3 @@
         }
     }
 </script>
-

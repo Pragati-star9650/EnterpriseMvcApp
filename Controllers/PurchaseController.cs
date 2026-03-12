@@ -22,6 +22,26 @@ namespace EnterpriseMvcApp.Controllers
             var docs = GetSampleDocuments("A/P Invoice");
             return View(docs);
         }
+        
+        public IActionResult PurchaseRequest()
+        {
+            return View();
+        }
+
+        public IActionResult PurchaseQuotation()
+        {
+            return View();
+        }
+
+        public IActionResult GoodsReceiptPO()
+        {
+            return View();
+        }
+
+        public IActionResult APCreditMemo()
+        {
+            return View();
+        }
 
         private List<PurchaseDocumentViewModel> GetSampleDocuments(string docType)
         {
