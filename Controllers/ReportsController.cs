@@ -6,6 +6,9 @@ namespace EnterpriseMvcApp.Controllers
     {
         public IActionResult Index()
         {
+            ViewData["Module"] = "Reports";
+            ViewData["Page"] = "Reports";
+
             return View();
         }
     }

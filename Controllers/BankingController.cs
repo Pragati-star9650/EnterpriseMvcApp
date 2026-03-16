@@ -8,17 +8,29 @@ namespace EnterpriseMvcApp.Controllers
     {
         public IActionResult Index()
         {
+            ViewData["Module"] = "Banking";
+            ViewData["Category"] = "Payments";
+            ViewData["Page"] = "Banking";
+
             return View();
         }
 
         public IActionResult IncomingPayments()
         {
+            ViewData["Module"] = "Banking";
+            ViewData["Category"] = "Payments";
+            ViewData["Page"] = "Incoming Payments";
+
             var docs = GetSamplePayments("Incoming");
             return View(docs);
         }
 
         public IActionResult OutgoingPayments()
         {
+            ViewData["Module"] = "Banking";
+            ViewData["Category"] = "Payments";
+            ViewData["Page"] = "Outgoing Payments";
+
             var docs = GetSamplePayments("Outgoing");
             return View(docs);
         }
@@ -54,4 +66,3 @@ namespace EnterpriseMvcApp.Controllers
         public string Method { get; set; } = string.Empty;
     }
 }
-

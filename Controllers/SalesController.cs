@@ -8,80 +8,150 @@ namespace EnterpriseMvcApp.Controllers
     {
         public IActionResult Index()
         {
+            ViewData["Module"] = "Sales A/R";
+            ViewData["ModuleController"] = "Sales";
+            ViewData["Category"] = "Sales Documents";
+            ViewData["Page"] = "Sales";
+
             return View();
         }
 
         public IActionResult Quotations()
         {
+            ViewData["Module"] = "Sales A/R";
+            ViewData["ModuleController"] = "Sales";
+            ViewData["Category"] = "Sales Documents";
+            ViewData["Page"] = "Sales Quotation";
+
             var docs = GetSampleDocuments("Quotation");
             return View(docs);
         }
 
         public IActionResult Orders()
         {
+            ViewData["Module"] = "Sales A/R";
+            ViewData["ModuleController"] = "Sales";
+            ViewData["Category"] = "Sales Documents";
+            ViewData["Page"] = "Sales Order";
+
             var docs = GetSampleDocuments("Order");
+            return View(docs);
+        }
+
+        public IActionResult Delivery()
+        {
+            ViewData["Module"] = "Sales A/R";
+            ViewData["ModuleController"] = "Sales";
+            ViewData["Category"] = "Sales Documents";
+            ViewData["Page"] = "Delivery";
+
+            var docs = GetSampleDocuments("Delivery");
+            return View(docs);
+        }
+
+        public IActionResult ReturnRequest()
+        {
+            ViewData["Module"] = "Sales A/R";
+            ViewData["ModuleController"] = "Sales";
+            ViewData["Category"] = "Sales Documents";
+            ViewData["Page"] = "Return Request";
+
+            var docs = GetSampleDocuments("ReturnRequest");
+            return View(docs);
+        }
+
+        public IActionResult Return()
+        {
+            ViewData["Module"] = "Sales A/R";
+            ViewData["ModuleController"] = "Sales";
+            ViewData["Category"] = "Sales Documents";
+            ViewData["Page"] = "Return";
+
+            var docs = GetSampleDocuments("Return");
+            return View(docs);
+        }
+
+        public IActionResult ARDownPaymentRequest()
+        {
+            ViewData["Module"] = "Sales A/R";
+            ViewData["ModuleController"] = "Sales";
+            ViewData["Category"] = "Sales Documents";
+            ViewData["Page"] = "A/R Down Payment Request";
+
+            var docs = GetSampleDocuments("ARDownPaymentRequest");
+            return View(docs);
+        }
+
+        public IActionResult ARDownPaymentInvoice()
+        {
+            ViewData["Module"] = "Sales A/R";
+            ViewData["ModuleController"] = "Sales";
+            ViewData["Category"] = "Sales Documents";
+            ViewData["Page"] = "A/R Down Payment Invoice";
+
+            var docs = GetSampleDocuments("ARDownPaymentInvoice");
             return View(docs);
         }
 
         public IActionResult ARInvoices()
         {
-            var docs = GetSampleDocuments("A/R Invoice");
+            ViewData["Module"] = "Sales A/R";
+            ViewData["ModuleController"] = "Sales";
+            ViewData["Category"] = "Sales Documents";
+            ViewData["Page"] = "A/R Invoice";
+
+            var docs = GetSampleDocuments("ARInvoice");
             return View(docs);
-        }
-
-        public IActionResult BlanketAgreement()
-        {
-            return View();
-        }
-
-        public IActionResult Delivery()
-        {
-            return View();
-        }
-
-        public IActionResult ReturnRequest()
-        {
-            return View();
-        }
-
-        public IActionResult Return()
-        {
-            return View();
-        }
-
-        public IActionResult ARDownPaymentRequest()
-        {
-            return View();
-        }
-
-        public IActionResult ARDownPaymentInvoice()
-        {
-            return View();
         }
 
         public IActionResult ARInvoicePayment()
         {
-            return View();
+            ViewData["Module"] = "Sales A/R";
+            ViewData["ModuleController"] = "Sales";
+            ViewData["Category"] = "Sales Documents";
+            ViewData["Page"] = "A/R Invoice + Payment";
+
+            var docs = GetSampleDocuments("ARInvoicePayment");
+            return View(docs);
         }
 
         public IActionResult ARCreditMemo()
         {
-            return View();
+            ViewData["Module"] = "Sales A/R";
+            ViewData["ModuleController"] = "Sales";
+            ViewData["Category"] = "Sales Documents";
+            ViewData["Page"] = "A/R Credit Memo";
+
+            var docs = GetSampleDocuments("ARCreditMemo");
+            return View(docs);
         }
 
         public IActionResult DocumentGenerationWizard()
         {
-            return View();
+            ViewData["Module"] = "Sales A/R";
+            ViewData["ModuleController"] = "Sales";
+            ViewData["Category"] = "Sales Documents";
+            ViewData["Page"] = "Document Generation Wizard";
+
+            var docs = GetSampleDocuments("DocumentGenerationWizard");
+            return View(docs);
         }
 
         public IActionResult RecurringTransactions()
         {
-            return View();
+            ViewData["Module"] = "Sales A/R";
+            ViewData["ModuleController"] = "Sales";
+            ViewData["Category"] = "Sales Documents";
+            ViewData["Page"] = "Recurring Transactions";
+
+            var docs = GetSampleDocuments("RecurringTransactions");
+            return View(docs);
         }
 
         private List<SalesDocumentViewModel> GetSampleDocuments(string docType)
         {
             var list = new List<SalesDocumentViewModel>();
+
             for (int i = 1; i <= 5; i++)
             {
                 list.Add(new SalesDocumentViewModel
@@ -95,6 +165,7 @@ namespace EnterpriseMvcApp.Controllers
                     DocType = docType
                 });
             }
+
             return list;
         }
     }
@@ -110,4 +181,3 @@ namespace EnterpriseMvcApp.Controllers
         public string DocType { get; set; } = string.Empty;
     }
 }
-

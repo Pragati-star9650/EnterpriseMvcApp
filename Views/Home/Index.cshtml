@@ -1,8 +1,87 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Dashboard";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="erp-dashboard">
+
+    <div class="erp-slide active" style="background-image:url('/images/slide1.jpg')"></div>
+    <div class="erp-slide" style="background-image:url('/images/slide2.jpg')"></div>
+    <div class="erp-slide" style="background-image:url('/images/slide3.jpg')"></div>
+
+    <div class="erp-overlay"></div>
+
+    <div class="erp-content">
+
+        <h2 class="erp-title">Welcome to Ayushman Solutions ERP</h2>
+
+        <!-- Button to open modules -->
+        <button class="btn btn-warning mb-4" onclick="toggleModules()">
+            Open Modules
+        </button>
+
+        <div id="modulesSection" class="erp-grid">
+
+            <a asp-controller="Sales" asp-action="Index" class="erp-card">
+                <h3>Sales</h3>
+                <p>Manage customer sales</p>
+            </a>
+
+            <a asp-controller="Purchase" asp-action="Index" class="erp-card">
+                <h3>Purchasing</h3>
+                <p>Handle vendor orders</p>
+            </a>
+
+            <a asp-controller="Inventory" asp-action="Index" class="erp-card">
+                <h3>Inventory</h3>
+                <p>Track stock levels</p>
+            </a>
+
+            <a asp-controller="Reports" asp-action="Index" class="erp-card">
+                <h3>Reports</h3>
+                <p>View analytics</p>
+            </a>
+
+        </div>
+
+    </div>
+
 </div>
+
+<script>
+
+    let slides = document.querySelectorAll(".erp-slide");
+    let index = 0;
+
+    function changeSlide(){
+
+        slides.forEach(s => s.classList.remove("active"));
+
+        index++;
+
+        if(index >= slides.length){
+            index = 0;
+        }
+
+        slides[index].classList.add("active");
+
+    }
+
+    setInterval(changeSlide,4000);
+
+</script>
+<script>
+
+    function toggleModules(){
+
+        var section = document.getElementById("modulesSection");
+
+        if(section.style.display === "none"){
+            section.style.display = "flex";
+        }
+        else{
+            section.style.display = "none";
+        }
+
+    }
+
+</script>

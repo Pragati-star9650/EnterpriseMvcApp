@@ -8,38 +8,72 @@ namespace EnterpriseMvcApp.Controllers
     {
         public IActionResult Index()
         {
+            ViewData["Module"] = "Purchase";
+            ViewData["ModuleController"] = "Purchase";
+            ViewData["Category"] = "Purchase Documents";
+            ViewData["Page"] = "Purchase";
+
             return View();
         }
 
         public IActionResult PurchaseOrders()
         {
+            ViewData["Module"] = "Purchase";
+            ViewData["ModuleController"] = "Purchase";
+            ViewData["Category"] = "Purchase Documents";
+            ViewData["Page"] = "Purchase Orders";
+
             var docs = GetSampleDocuments("Purchase Order");
             return View(docs);
         }
 
         public IActionResult APInvoices()
         {
+            ViewData["Module"] = "Purchase";
+            ViewData["ModuleController"] = "Purchase";
+            ViewData["Category"] = "Purchase Documents";
+            ViewData["Page"] = "A/P Invoice";
+
             var docs = GetSampleDocuments("A/P Invoice");
             return View(docs);
         }
-        
+
         public IActionResult PurchaseRequest()
         {
+            ViewData["Module"] = "Purchase";
+            ViewData["ModuleController"] = "Purchase";
+            ViewData["Category"] = "Purchase Documents";
+            ViewData["Page"] = "Purchase Request";
             return View();
         }
 
         public IActionResult PurchaseQuotation()
         {
+            ViewData["Module"] = "Purchase";
+            ViewData["ModuleController"] = "Purchase";
+            ViewData["Category"] = "Purchase Documents";
+            ViewData["Page"] = "Purchase Quotation";
+
             return View();
         }
 
         public IActionResult GoodsReceiptPO()
         {
+            ViewData["Module"] = "Purchase";
+            ViewData["ModuleController"] = "Purchase";
+            ViewData["Category"] = "Purchase Documents";
+            ViewData["Page"] = "Goods Receipt PO";
+
             return View();
         }
 
         public IActionResult APCreditMemo()
         {
+            ViewData["Module"] = "Purchase";
+            ViewData["ModuleController"] = "Purchase";
+            ViewData["Category"] = "Purchase Documents";
+            ViewData["Page"] = "A/P Credit Memo";
+
             return View();
         }
 
@@ -74,4 +108,3 @@ namespace EnterpriseMvcApp.Controllers
         public string DocType { get; set; } = string.Empty;
     }
 }
-

@@ -26,141 +26,25 @@ namespace EnterpriseMvcApp.Controllers
             catch
             {
                 ViewBag.ServerList = new List<Server>();
-                ViewBag.DbError = "Could not load server list. Check that the database is running and migrations are applied.";
+                ViewBag.DbError = "Could not load server list. Check that the database is running.";
             }
         }
 
+        // ================= LOGIN (GET) =================
         [HttpGet]
         public IActionResult Login()
         {
+            // If already logged in, go to Home
+            if (HttpContext.Session.GetString("UserName") != null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             LoadServers();
             return View();
         }
 
-        [HttpGet]
-        public IActionResult Logout()
-        {
-            HttpContext.Session.Clear();
-            return RedirectToAction("Login");
-        }
-
-        [HttpGet]
-        public IActionResult GetDatabases(int serverId)
-        {
-            var databases = _context.Databases
-                                    .Where(d => d.ServerId == serverId && d.IsActive == true)
-                                    .Select(d => new
-                                    {
-                                        databaseId = d.DatabaseId,
-                                        databaseName = d.DatabaseName
-                                    })
-                                    .ToList();
-
-            return Json(databases);
-        }
-        [HttpGet]
-        public IActionResult ForgotPassword()
-        {
-            return View();
-        }
-
-        [HttpGet]
-        public IActionResult Signup()
-        {
-            LoadServers();
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult Signup(SignupViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                LoadServers();
-                return View(model);
-            }
-
-            int resolvedServerId = model.ServerId;
-            int resolvedDatabaseId = model.DatabaseId;
-
-            // Create new Server if requested
-            if (model.ServerId == 0)
-            {
-                if (string.IsNullOrWhiteSpace(model.NewServerName))
-                {
-                    ViewBag.Error = "Please provide a server name for the new server.";
-                    LoadServers();
-                    return View(model);
-                }
-
-                var newServer = new Server
-                {
-                    ServerName = model.NewServerName.Trim(),
-                    ServerStatus = true
-                };
-                _context.Servers.Add(newServer);
-                _context.SaveChanges();
-                resolvedServerId = newServer.ServerId;
-            }
-
-            // Create new Database if requested
-            if (model.DatabaseId == 0)
-            {
-                if (string.IsNullOrWhiteSpace(model.NewDatabaseName))
-                {
-                    ViewBag.Error = "Please provide a database name for the new database.";
-                    LoadServers();
-                    return View(model);
-                }
-
-                var newDb = new Database
-                {
-                    ServerId = resolvedServerId,
-                    DatabaseName = model.NewDatabaseName.Trim(),
-                    DbUser = string.Empty,
-                    DbPassword = string.Empty,
-                    IsActive = true
-                };
-                _context.Databases.Add(newDb);
-                _context.SaveChanges();
-                resolvedDatabaseId = newDb.DatabaseId;
-            }
-
-            var existingUser = _context.UserMasters.FirstOrDefault(u => u.UserName == model.UserName);
-            if (existingUser != null)
-            {
-                ViewBag.Error = "Username already exists.";
-                LoadServers();
-                return View(model);
-            }
-
-            var user = new UserMaster
-            {
-                UserName = model.UserName,
-                Password = model.Password,
-                IsActive = true
-            };
-
-            _context.UserMasters.Add(user);
-            _context.SaveChanges();
-
-            var access = new UserCompanyAccess
-            {
-                UserId = user.Id,
-                ServerId = resolvedServerId,
-                DatabaseId = resolvedDatabaseId
-            };
-
-            _context.UserCompanyAccess.Add(access);
-            _context.SaveChanges();
-
-            // Auto-login after successful signup
-            HttpContext.Session.SetString("UserName", user.UserName);
-            HttpContext.Session.SetInt32("ServerId", resolvedServerId);
-            HttpContext.Session.SetInt32("DatabaseId", resolvedDatabaseId);
-            return RedirectToAction("Index", "Dashboard");
-        }
-
+        // ================= LOGIN (POST) =================
         [HttpPost]
         public IActionResult Login(LoginViewModel model)
         {
@@ -194,11 +78,147 @@ namespace EnterpriseMvcApp.Controllers
                 return View(model);
             }
 
+            // Save session
             HttpContext.Session.SetString("UserName", user.UserName);
             HttpContext.Session.SetInt32("ServerId", model.ServerId);
             HttpContext.Session.SetInt32("DatabaseId", model.DatabaseId);
 
-            return RedirectToAction("Index", "Dashboard");
+            return RedirectToAction("Index", "Home");
+        }
+
+        // ================= LOGOUT =================
+        [HttpGet]
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Login", "Account");
+        }
+
+        // ================= LOAD DATABASES =================
+        [HttpGet]
+        public IActionResult GetDatabases(int serverId)
+        {
+            var databases = _context.Databases
+                .Where(d => d.ServerId == serverId && d.IsActive == true)
+                .Select(d => new
+                {
+                    databaseId = d.DatabaseId,
+                    databaseName = d.DatabaseName
+                })
+                .ToList();
+
+            return Json(databases);
+        }
+
+        // ================= FORGOT PASSWORD =================
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        // ================= SIGNUP (GET) =================
+        [HttpGet]
+        public IActionResult Signup()
+        {
+            LoadServers();
+            return View();
+        }
+
+        // ================= SIGNUP (POST) =================
+        [HttpPost]
+        public IActionResult Signup(SignupViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                LoadServers();
+                return View(model);
+            }
+
+            int resolvedServerId = model.ServerId;
+            int resolvedDatabaseId = model.DatabaseId;
+
+            // Create Server
+            if (model.ServerId == 0)
+            {
+                if (string.IsNullOrWhiteSpace(model.NewServerName))
+                {
+                    ViewBag.Error = "Please provide a server name.";
+                    LoadServers();
+                    return View(model);
+                }
+
+                var newServer = new Server
+                {
+                    ServerName = model.NewServerName.Trim(),
+                    ServerStatus = true
+                };
+
+                _context.Servers.Add(newServer);
+                _context.SaveChanges();
+                resolvedServerId = newServer.ServerId;
+            }
+
+            // Create Database
+            if (model.DatabaseId == 0)
+            {
+                if (string.IsNullOrWhiteSpace(model.NewDatabaseName))
+                {
+                    ViewBag.Error = "Please provide a database name.";
+                    LoadServers();
+                    return View(model);
+                }
+
+                var newDb = new Database
+                {
+                    ServerId = resolvedServerId,
+                    DatabaseName = model.NewDatabaseName.Trim(),
+                    DbUser = "",
+                    DbPassword = "",
+                    IsActive = true
+                };
+
+                _context.Databases.Add(newDb);
+                _context.SaveChanges();
+                resolvedDatabaseId = newDb.DatabaseId;
+            }
+
+            var existingUser = _context.UserMasters
+                .FirstOrDefault(u => u.UserName == model.UserName);
+
+            if (existingUser != null)
+            {
+                ViewBag.Error = "Username already exists.";
+                LoadServers();
+                return View(model);
+            }
+
+            var user = new UserMaster
+            {
+                UserName = model.UserName,
+                Password = model.Password,
+                IsActive = true
+            };
+
+            _context.UserMasters.Add(user);
+            _context.SaveChanges();
+
+            var access = new UserCompanyAccess
+            {
+                UserId = user.Id,
+                ServerId = resolvedServerId,
+                DatabaseId = resolvedDatabaseId
+            };
+
+            _context.UserCompanyAccess.Add(access);
+            _context.SaveChanges();
+
+            // Auto login after signup
+            HttpContext.Session.SetString("UserName", user.UserName);
+            HttpContext.Session.SetInt32("ServerId", resolvedServerId);
+            HttpContext.Session.SetInt32("DatabaseId", resolvedDatabaseId);
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

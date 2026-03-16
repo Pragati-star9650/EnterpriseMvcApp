@@ -11,109 +11,161 @@
     <title>@ViewData["Title"] - Enterprise</title>
     <link rel="stylesheet" href="~/css/sap-login.css" asp-append-version="true" />
 </head>
+
 <body class="sap-login-page theme-sap">
-    <div class="sap-login-wrapper">
-        <div class="sap-login-card">
-          <!--  <div class="sap-login-header">     -->
-            <div class="sap-login-header">
-                <img src="~/images/logo.png" alt="Company Logo" class="login-logo" />
-                <h1>Enterprise System Login</h1>
-            </div>
-               <!-- <h1>Enterprise System Login</h1>
-            </div>-->
-            <div class="sap-login-body">
-                @if (ViewBag.DbError != null)
-                {
-                    <div class="sap-alert-info" role="alert">@ViewBag.DbError</div>
-                }
-                @if (ViewBag.Error != null)
-                {
-                    <div class="sap-alert-error" role="alert">@ViewBag.Error</div>
-                }
-                
-                <form asp-action="Login" method="post">
-                    <div class="sap-form-group">
-                        <label for="serverSelect">Server</label>
-                        <select asp-for="ServerId" id="serverSelect" class="sap-form-control" required>
-                            <option value="">-- Select Server --</option>
-                            @if (ViewBag.ServerList != null)
-                            {
-                                @foreach (var server in ViewBag.ServerList)
+
+    <div class="login-container">
+
+        <!-- LEFT COVER IMAGE -->
+        <div class="login-left"></div>
+
+        <!-- RIGHT LOGIN SECTION -->
+        <div class="login-right">
+
+            <div class="sap-login-card">
+
+                <div class="sap-login-header">
+                    <img src="~/images/logo.png" alt="Company Logo" class="login-logo" />
+                    <h1>AYUSHMAN SOLUTIONS</h1>
+                    <p class="login-subtitle">Integrated ERP System</p>
+                </div>
+
+                <div class="sap-login-body">
+
+                    @if (ViewBag.DbError != null)
+                    {
+                        <div class="sap-alert-info" role="alert">@ViewBag.DbError</div>
+                    }
+
+                    @if (ViewBag.Error != null)
+                    {
+                        <div class="sap-alert-error" role="alert">@ViewBag.Error</div>
+                    }
+
+                    <form asp-action="Login" method="post">
+
+                        <div class="sap-form-group">
+                            <label for="serverSelect">Server</label>
+                            <select asp-for="ServerId" id="serverSelect" class="sap-form-control" required>
+                                <option value="">-- Select Server --</option>
+                                @if (ViewBag.ServerList != null)
                                 {
-                                    <option value="@server.ServerId">@server.ServerName</option>
+                                    @foreach (var server in ViewBag.ServerList)
+                                    {
+                                        <option value="@server.ServerId">@server.ServerName</option>
+                                    }
                                 }
-                            }
-                        </select>
-                    </div>
-
-                    <div class="sap-form-group">
-                        <label for="databaseSelect">Database</label>
-                        <select asp-for="DatabaseId" id="databaseSelect" class="sap-form-control" required>
-                            <option value="">-- Select Database --</option>
-                        </select>
-                    </div>
-
-                    <div class="sap-form-group">
-                        <label asp-for="UserName">Username</label>
-                        <input asp-for="UserName" class="sap-form-control" placeholder="Enter username" autocomplete="username" />
-                    </div>
-
-                    <div class="sap-form-group">
-                        <label asp-for="Password">Password</label>
-                       <!-- <input asp-for="Password" type="password" class="sap-form-control" placeholder="Enter password" autocomplete="current-password" />-->
-                       
-                       <!-------------------------------------------mine ------------------------------------->
-
-                       <div style="position:relative;">
-                            <input asp-for="Password" type="password" id="passwordField"
-                                   class="sap-form-control"
-                                   placeholder="Enter password"
-                                   autocomplete="current-password" />
-                            <span onclick="togglePassword()"
-                                  style="position:absolute; right:12px; top:10px; cursor:pointer;">
-                                👁
-                            </span>
+                            </select>
                         </div>
-                        <!-------------------------------------------mine ------------------------------------->
+
+                        <div class="sap-form-group">
+                            <label for="databaseSelect">Database</label>
+                            <select asp-for="DatabaseId" id="databaseSelect" class="sap-form-control" required>
+                                <option value="">-- Select Database --</option>
+                            </select>
+                        </div>
+
+                        <div class="sap-form-group">
+                            <label asp-for="UserName">Username</label>
+                            <!--<input asp-for="UserName"
+                                   class="sap-form-control"
+                                   placeholder="Enter username"
+                                   autocomplete="username" />  -->
+
+                            <input asp-for="UserName"
+                                   class="sap-form-control"
+                                   placeholder="Enter username"
+                                   required />
+                        </div>
+
+                        <div class="sap-form-group">
+                            <label asp-for="Password">Password</label>
+
+                            <div style="position:relative;">
+                                <!--<input asp-for="Password"
+                                       type="password"
+                                       id="passwordField"
+                                       class="sap-form-control"
+                                       placeholder="Enter password"
+                                       autocomplete="current-password" /> -->
+
+                                <input asp-for="Password"
+                                       type="password"
+                                       id="passwordField"
+                                       class="sap-form-control"
+                                       placeholder="Enter password"
+                                       required />
+
+                                <span onclick="togglePassword()"
+                                      style="position:absolute; right:12px; top:10px; cursor:pointer;">
+                                    👁
+                                </span>
+                            </div>
+
+                        </div>
+
+                        <button type="submit" class="sap-btn-primary">Login</button>
+
+                    </form>
+
+                    <div class="sap-login-links">
+                        <a asp-action="ForgotPassword">Forgot password / Reset password</a>
                     </div>
 
-                    <button type="submit" class="sap-btn-primary">Login</button>
-                </form>
+                </div>
 
-                <div class="sap-login-links">
-                    <a asp-action="ForgotPassword">Forgot password / Reset password</a>
-                </div>
-                </div>
             </div>
+
         </div>
+
     </div>
 
+
     <script>
-        document.getElementById('serverSelect').addEventListener('change', function () {
-            var serverId = this.value;
-            var dbSelect = document.getElementById('databaseSelect');
-            dbSelect.innerHTML = '<option value="">-- Select Database --</option>';
-            if (!serverId) return;
-            fetch('/Account/GetDatabases?serverId=' + encodeURIComponent(serverId))
-                .then(function (res) { return res.json(); })
-                .then(function (data) {
-                    data.forEach(function (item) {
-                        var opt = document.createElement('option');
-                        opt.value = item.databaseId;
-                        opt.textContent = item.databaseName;
-                        dbSelect.appendChild(opt);
+
+            document.getElementById('serverSelect').addEventListener('change', function () {
+
+                var serverId = this.value;
+                var dbSelect = document.getElementById('databaseSelect');
+
+                dbSelect.innerHTML = '<option value="">-- Select Database --</option>';
+
+                if (!serverId) return;
+
+                fetch('/Account/GetDatabases?serverId=' + encodeURIComponent(serverId))
+                    .then(function (res) { return res.json(); })
+                    .then(function (data) {
+
+                        data.forEach(function (item) {
+
+                            var opt = document.createElement('option');
+
+                            opt.value = item.databaseId;
+                            opt.textContent = item.databaseName;
+
+                            dbSelect.appendChild(opt);
+
+                        });
+
+                    })
+                    .catch(function () {
+
+                        dbSelect.innerHTML = '<option value="">-- Select Database --</option>';
+
                     });
-                })
-                .catch(function () {
-                    dbSelect.innerHTML = '<option value="">-- Select Database --</option>';
-                });
-        });
-        /*----------------------------mine ------------------------------------------------*/
-                function togglePassword() {
-            var pwd = document.getElementById("passwordField");
-            pwd.type = pwd.type === "password" ? "text" : "password";
-        }
-        /*----------------------------mine ------------------------------------------------*/
+
+            });
+
+
+            function togglePassword() {
+
+                var pwd = document.getElementById("passwordField");
+
+                pwd.type = pwd.type === "password" ? "text" : "password";
+
+            }
+
     </script>
+
 </body>
 </html>

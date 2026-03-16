@@ -6,12 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Ayushman Solutions</title>
 
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/sap-login.css" />
 </head>
 
-<body class="sap-app-body theme-sap">
+<body class="sap-app-body theme-ayushman">
 
     <!-- ===== TOP HEADER ===== -->
     <header class="sap-top-header navbar navbar-dark shadow-sm">
@@ -22,11 +24,11 @@
                 @if (HttpContextAccessor.HttpContext?.Session?.GetString("UserName") != null)
                 {
                     <button class="navbar-toggler me-2" type="button"
-                            data-bs-toggle="offcanvas" data-bs-target="#sapMainMenu"
-                            aria-controls="sapMainMenu" aria-label="Toggle menu">
+                            data-bs-toggle="offcanvas" data-bs-target="#sapMainMenu">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                 }
+
                 <img src="~/images/logo.png" width="40" class="me-2" />
                 <span class="fw-bold text-white fs-5">Ayushman Solutions</span>
             </div>
@@ -40,8 +42,8 @@
                     </span>
 
                     <a class="btn btn-light btn-sm"
-                       asp-controller="Account"
-                       asp-action="Logout">
+                           asp-controller="Account"
+                           asp-action="Logout">
                         Logout
                     </a>
                 </div>
@@ -50,16 +52,63 @@
         </div>
     </header>
 
-    <!-- ===== OFFCANVAS HAMBURGER MENU ===== -->
+
+    <!-- ===== MODULE MENU ===== -->
     @if (HttpContextAccessor.HttpContext?.Session?.GetString("UserName") != null)
     {
-        <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="sapMainMenu" aria-labelledby="sapMainMenuLabel">
+        <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="sapMainMenu">
             <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="sapMainMenuLabel">Modules</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                <h5 class="offcanvas-title">Modules</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
             </div>
+
             <div class="offcanvas-body">
                 <div class="list-group">
+
+                    <a class="list-group-item list-group-item-action"
+                           asp-controller="Administration" asp-action="Index">
+                        <i class="bi bi-gear me-2"></i> Administration
+                    </a>
+
+                    <a class="list-group-item list-group-item-action"
+                           asp-controller="Sales" asp-action="Index">
+                        <i class="bi bi-cart me-2"></i> Sales A/R
+                    </a>
+
+                    <a class="list-group-item list-group-item-action"
+                           asp-controller="Purchase" asp-action="Index">
+                        <i class="bi bi-bag me-2"></i> Purchase
+                    </a>
+
+                    <a class="list-group-item list-group-item-action"
+                           asp-controller="Inventory" asp-action="Index">
+                        <i class="bi bi-box-seam me-2"></i> Inventory
+                    </a>
+
+                    <a class="list-group-item list-group-item-action"
+                           asp-controller="BusinessPartner" asp-action="Index">
+                        <i class="bi bi-people me-2"></i> Business Partner
+                    </a>
+
+                    <a class="list-group-item list-group-item-action"
+                           asp-controller="Banking" asp-action="Index">
+                        <i class="bi bi-bank me-2"></i> Banking
+                    </a>
+
+                    <a class="list-group-item list-group-item-action"
+                           asp-controller="Production" asp-action="Index">
+                        <i class="bi bi-gear-wide-connected me-2"></i> Production
+                    </a>
+
+                    <a class="list-group-item list-group-item-action"
+                           asp-controller="Reports" asp-action="Index">
+                        <i class="bi bi-bar-chart me-2"></i> Reports
+                    </a>
+
+                </div>
+                
+                @* <div class="list-group">
+
                     <a class="list-group-item list-group-item-action" asp-controller="Administration" asp-action="Index">Administration</a>
                     <a class="list-group-item list-group-item-action" asp-controller="Sales" asp-action="Index">Sales A/R</a>
                     <a class="list-group-item list-group-item-action" asp-controller="Purchase" asp-action="Index">Purchase</a>
@@ -69,53 +118,89 @@
                     <a class="list-group-item list-group-item-action" asp-controller="Production" asp-action="Index">Production</a>
                     <a class="list-group-item list-group-item-action" asp-controller="Reports" asp-action="Index">Reports</a>
                 </div>
+                *@
             </div>
         </div>
     }
 
-    @if (HttpContextAccessor.HttpContext?.Session?.GetString("UserName") != null)
-    {
-        <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="salesArMenu" aria-labelledby="salesArMenuLabel">
-            <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="salesArMenuLabel">Sales A/R</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body">
-                <div class="list-group">
-                    <a class="list-group-item list-group-item-action" asp-controller="Sales" asp-action="BlanketAgreement">Sales Blanket Agreement</a>
-                    <a class="list-group-item list-group-item-action" asp-controller="Sales" asp-action="Quotations">Sales Quotation</a>
-                    <a class="list-group-item list-group-item-action" asp-controller="Sales" asp-action="Orders">Sales Order</a>
-                    <a class="list-group-item list-group-item-action" asp-controller="Sales" asp-action="Delivery">Delivery</a>
-                    <a class="list-group-item list-group-item-action" asp-controller="Sales" asp-action="ReturnRequest">Return Request</a>
-                    <a class="list-group-item list-group-item-action" asp-controller="Sales" asp-action="Return">Return</a>
-                    <a class="list-group-item list-group-item-action" asp-controller="Sales" asp-action="ARDownPaymentRequest">A/R Down Payment Request</a>
-                    <a class="list-group-item list-group-item-action" asp-controller="Sales" asp-action="ARDownPaymentInvoice">A/R Down Payment Invoice</a>
-                    <a class="list-group-item list-group-item-action" asp-controller="Sales" asp-action="ARInvoices">A/R Invoice</a>
-                    <a class="list-group-item list-group-item-action" asp-controller="Sales" asp-action="ARInvoicePayment">A/R Invoice + Payment</a>
-                    <a class="list-group-item list-group-item-action" asp-controller="Sales" asp-action="ARCreditMemo">A/R Credit Memo</a>
-                    <a class="list-group-item list-group-item-action" asp-controller="Sales" asp-action="DocumentGenerationWizard">Document Generation Wizard</a>
-                    <a class="list-group-item list-group-item-action" asp-controller="Sales" asp-action="RecurringTransactions">Recurring Transactions</a>
-                </div>
-            </div>
-        </div>
-    }
+
+
+    <!-- ===== BREADCRUMB + BACK ARROW ===== -->
+
+    <div class="container-fluid mt-2 d-flex align-items-center">
+
+        <!-- BACK ARROW -->
+        <!-- <a href="javascript:history.back()" class="breadcrumb-arrow me-2">←</a> -->
+
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+
+                <li class="breadcrumb-item">
+                    <a asp-controller="Home" asp-action="Index">Home</a>
+                </li>
+
+                @if (ViewData["Module"] != null)
+                {
+                    <li class="breadcrumb-item">
+                        <a asp-controller="@ViewData["ModuleController"]" asp-action="Index">
+                            @ViewData["Module"]
+                        </a>
+                    </li>
+                }
+
+                @if (ViewData["Category"] != null)
+                {
+                    <li class="breadcrumb-item">@ViewData["Category"]</li>
+                }
+
+                @if (ViewData["Page"] != null)
+                {
+                    <li class="breadcrumb-item active">@ViewData["Page"]</li>
+                }
+
+            </ol>
+        </nav>
+
+    </div>
+
     <!-- ===== MAIN CONTENT ===== -->
+
     <main class="sap-app-main container-fluid py-4">
+
         @RenderBody()
+
     </main>
 
+
     <!-- ===== FOOTER ===== -->
+
     <footer class="sap-footer text-center py-3">
         © @DateTime.Now.Year Ayushman Solutions |
         SAP Business One Integrated ERP System
     </footer>
 
+
     <!-- Scripts -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <script>
+            const offcanvasElement = document.getElementById('sapMainMenu');
+
+            if (offcanvasElement) {
+                offcanvasElement.addEventListener('show.bs.offcanvas', function () {
+                    document.body.classList.add('sidebar-open');
+                });
+
+                offcanvasElement.addEventListener('hidden.bs.offcanvas', function () {
+                    document.body.classList.remove('sidebar-open');
+                });
+            }
+    </script>
+
 </body>
 </html>
-
 
 
 

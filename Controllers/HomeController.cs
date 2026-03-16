@@ -18,15 +18,29 @@ namespace EnterpriseMvcApp.Controllers
             return View();
         }
 
+        /*public IActionResult Index()
+        {
+            return RedirectToAction("Index", "Dashboard");
+        }
+        */
         public IActionResult Privacy()
-        {
-            return View();
-        }
+{
+    ViewData["Module"] = "Home";
+    ViewData["Page"] = "Privacy";
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-    }
+    return View();
+}
+
+[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+public IActionResult Error()
+{
+    ViewData["Module"] = "Home";
+    ViewData["Page"] = "Error";
+
+    return View(new ErrorViewModel
+    {
+        RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+    });
+}
+}
 }
